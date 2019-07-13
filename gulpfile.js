@@ -40,7 +40,7 @@ gulp.task("css", function () {
 });
 
 gulp.task("copyrest", function () {
-  return gulp.src(["app/*.ico", "app/css/**", "app/img/**", "app/js/**"],
+  return gulp.src(["app/*.ico", "app/css/**", "app/img/**", "app/photos/**", "app/fonts/**", "app/js/**"],
   {
     base: "app"
   })
