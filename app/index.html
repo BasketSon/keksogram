@@ -11,7 +11,6 @@
 
 <body>
   <main>
-
     <!-- Фильтрация изображений от других пользователей -->
     <section class="img-filters  img-filters--inactive  container">
       <h2 class="img-filters__title  visually-hidden">Фильтр фотографий</h2>
@@ -53,6 +52,7 @@
                   <!-- Предварительный просмотр изображения -->
                   <div class="img-upload__preview">
                     <img src="#" alt="Предварительный просмотр фотографии">
+                    <input type="range" name="" value="100" min = "0" max = "100" class = "img-upload__slider">
                   </div>
 
                   <!-- Изменение глубины эффекта, накладываемого на изображение -->
@@ -228,5 +228,9 @@
 
   <script src="js/pictures.js"></script>
   <script src="js/render-pictures.js"></script>
+  <script src="js/upload.js"></script>
+  <script src="js/resize.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/upload-hashtags.js"></script>
 </body>
 </html>
