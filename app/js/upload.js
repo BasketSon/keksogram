@@ -10,12 +10,13 @@
   var previewContainer = imgEditingOverlay.querySelector('.img-upload__preview');
   var hashtagsInput = document.querySelector('.text__hashtags');
   var descriptionInput = document.querySelector('.text__description');
+  var animStyle = document.createElement('style');
+  document.head.insertAdjacentElement('beforeend', animStyle);
 
   var resetPreview = function () {
     previewImage.className = '';
     previewImage.src = '#';
     previewImage.style = '';
-    clearInterval(interval);
     document.querySelector('.img-upload__slider').classList.add('visually-hidden');
   };
   var closeEditingOverlay = function () {
@@ -55,11 +56,10 @@
   });
 
   var back = document.createElement('div');
-  var interval;
   previewContainer.insertAdjacentElement('afterbegin', back);
   previewContainer.style.overflow = 'hidden';
   back.style = 'position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-size: auto ' + PREVIEW_CONTAINER_SIDE + 'px; background-repeat: repeat-x; filter: blur(9px); z-index: 0;';
-  var leftCoord = 0;
+  back.classList.add('img-upload__generated-background');
   imgEditingOverlay.querySelector('.cancel').addEventListener('click', closeEditingOverlay);
 
   var renderPreview = function (file) {
@@ -68,15 +68,11 @@
       previewImage.src = reader.result;
       back.style.backgroundImage = 'url(' + reader.result + ')';
       previewImage.style.zIndex = '0'; // Без этого блюрится и имэджж
-      interval = setInterval(function () {
-        back.style.backgroundPosition = leftCoord-- + 'px 0';
-        if (Math.abs(leftCoord) > previewImage.naturalWidth * PREVIEW_CONTAINER_SIDE / previewImage.naturalHeight) {
-          leftCoord = 0;
-        }
-      }, 32);
+      setTimeout(function () {
+        animStyle.textContent = '@keyframes backImg {from {background-position: left 0 top 0;} to {background-position: left -' + previewImage.naturalWidth * PREVIEW_CONTAINER_SIDE / previewImage.naturalHeight + 'px top 0;}}';
+      }, 0);
     });
     reader.readAsDataURL(file);
   };
-
 
 })();

@@ -1445,6 +1445,15 @@ main {
           transform: translateX(-50%);
 }
 
+.img-upload__generated-background {
+  animation-name: backImg;
+  animation-duration: 15s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+
+
 
 /* Адаптивности чуток
    ========================================================================== */
