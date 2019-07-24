@@ -77,31 +77,17 @@
   var onLoadSuccess = function (response) {
     pictures = response;
     window.renderPictures(pictures);
-    console.log(response)
   };
   var generatedPictures = window.createMockPhotoArray();
 
   var onLoadError = function (err) {
-    var errorMessage = document.createElement('div');
-    errorMessage.style = 'position: fixed; z-index: 25;' +
-    'top: 15vh;' +
-    'left: 35vw;' +
-    'width: 30vw;' +
-    'color: #D8000C; background-color: #FFBABA;' +
-    'padding: 12px;';
-    document.body.insertAdjacentElement('afterbegin', errorMessage);
-    var closeErrorButton = document.createElement('button');
-    closeErrorButton.style = 'display: inline-block; padding: 0; margin: 0; border: none; background: none; border: none;' +
-    'margin-right: 12px; font-size: 40px; line-height: 16px; font-weight: bold';
-    closeErrorButton.setAttribute('title', 'Закрыть сообщение и загрузить mock-данные');
-    closeErrorButton.textContent = '྾';
-    closeErrorButton.addEventListener('click', function () {
-      errorMessage.remove();
+    var errorMessage = window.createPopup(err, 'error');
+    var closeErrorMessage = errorMessage.querySelector('button');
+    closeErrorMessage.setAttribute('title', 'Закрыть сообщение и загрузить mock-данные');
+    closeErrorMessage.addEventListener('click', function () {
       window.renderPictures(generatedPictures);
     });
-
-    errorMessage.textContent = err;
-    errorMessage.insertAdjacentElement('afterbegin', closeErrorButton);
+    document.body.insertAdjacentElement('afterbegin', errorMessage);
   };
 
   window.backend.load(onLoadSuccess, onLoadError);

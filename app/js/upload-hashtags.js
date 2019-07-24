@@ -1,8 +1,7 @@
 'use strict';
 
 (function () {
-  var uploadForm = document.querySelector('.img-upload__form');
-  var hashtagsInput = uploadForm.querySelector('.text__hashtags');
+  var hashtagsInput = document.querySelector('.text__hashtags');
 
   var onHashtagsInputBlur = function () {
     var tags = hashtagsInput.value;

@@ -3,12 +3,13 @@
 (function () {
   var PREVIEW_CONTAINER_SIDE = 600;
   var IMG_TYPES = ['jpg', 'jpeg', 'png', 'gif'];
-  var upload = document.querySelector('#upload-file');
-  var imgEditingOverlay = document.querySelector('.img-upload__overlay');
+  var uploadForm = document.querySelector('.img-upload__form');
+  var upload = uploadForm.querySelector('#upload-file');
+  var imgEditingOverlay = uploadForm.querySelector('.img-upload__overlay');
   var previewImage = imgEditingOverlay.querySelector('.img-upload__preview img');
   var previewContainer = imgEditingOverlay.querySelector('.img-upload__preview');
-  var hashtagsInput = document.querySelector('.text__hashtags');
-  var descriptionInput = document.querySelector('.text__description');
+  var hashtagsInput = uploadForm.querySelector('.text__hashtags');
+  var descriptionInput = uploadForm.querySelector('.text__description');
   var animStyle = document.createElement('style');
   document.head.insertAdjacentElement('beforeend', animStyle);
 
@@ -73,5 +74,24 @@
     });
     reader.readAsDataURL(file);
   };
+
+  var onSuccessUpload = function () {
+    var successMessage = window.createPopup();
+    setTimeout(function () {
+      successMessage.remove();
+    }, 5000);
+    document.body.insertAdjacentElement('afterbegin', successMessage);
+  };
+
+  var onErrorUpload = function (err) {
+    var errorMessage = window.createPopup(err, 'error');
+    document.body.insertAdjacentElement('afterbegin', errorMessage);
+  };
+
+  uploadForm.addEventListener('submit', function (evt) {
+    window.backend.upload(onSuccessUpload, onErrorUpload, new FormData(uploadForm));
+    closeEditingOverlay();
+    evt.preventDefault();
+  });
 
 })();
