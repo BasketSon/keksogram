@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var ESC_KEY_CODE = 27;
   var pictureTemplate = document.querySelector('#picture')
       .content
       .querySelector('.picture');
@@ -20,7 +19,6 @@
     return pictureElement;
   };
 
-  var generatedPictures = window.createMockPhotoArray();
 
   window.renderPictures = function (picsArray) {
     var fragment = document.createDocumentFragment();
@@ -46,7 +44,7 @@
       Math.ceil(Math.random() * 6) +
       '.svg" alt="Аватар комментатора фотографии" width="35" height="35">' +
       '<p class="social__text">' +
-      picture.comments[i] +
+      (picture.comments[i].message ? picture.comments[i].message : picture.comments[i]) +
       '</p></li>');
     }
     bigPicture.querySelector('.social__caption').textContent = picture.description;
@@ -63,7 +61,7 @@
   };
 
   var onEscDown = function (evt) {
-    if (evt.keyCode === ESC_KEY_CODE) {
+    if (window.utils.isEscKeycode(evt)) {
       hideBigPic();
       window.removeEventListener('keydown', onEscDown);
     }
@@ -74,7 +72,38 @@
     window.remove('keydown', onEscDown);
   };
 
-  window.renderPictures(generatedPictures);
+  var pictures;
 
+  var onLoadSuccess = function (response) {
+    pictures = response;
+    window.renderPictures(pictures);
+    console.log(response)
+  };
+  var generatedPictures = window.createMockPhotoArray();
+
+  var onLoadError = function (err) {
+    var errorMessage = document.createElement('div');
+    errorMessage.style = 'position: fixed; z-index: 25;' +
+    'top: 15vh;' +
+    'left: 35vw;' +
+    'width: 30vw;' +
+    'color: #D8000C; background-color: #FFBABA;' +
+    'padding: 12px;';
+    document.body.insertAdjacentElement('afterbegin', errorMessage);
+    var closeErrorButton = document.createElement('button');
+    closeErrorButton.style = 'display: inline-block; padding: 0; margin: 0; border: none; background: none; border: none;' +
+    'margin-right: 12px; font-size: 40px; line-height: 16px; font-weight: bold';
+    closeErrorButton.setAttribute('title', 'Закрыть сообщение и загрузить mock-данные');
+    closeErrorButton.textContent = '྾';
+    closeErrorButton.addEventListener('click', function () {
+      errorMessage.remove();
+      window.renderPictures(generatedPictures);
+    });
+
+    errorMessage.textContent = err;
+    errorMessage.insertAdjacentElement('afterbegin', closeErrorButton);
+  };
+
+  window.backend.load(onLoadSuccess, onLoadError);
 
 })();

@@ -36,9 +36,9 @@
     this.url = 'photos/' + photos.splice(getRandomNumberOfInterval(0, photos.length - 1), 1)[0] + '.jpg';
     this.likes = getRandomNumberOfInterval(MIN_LIKES, MAX_LIKES);
     this.comments = comments.filter(function () {
-      return Math.round(Math.random())
+      return Math.round(Math.random());
     });
-    this.description = descriptions[getRandomNumberOfInterval(0, descriptions.length - 1)]
+    this.description = descriptions[getRandomNumberOfInterval(0, descriptions.length - 1)];
   };
 
   window.createMockPhotoArray = function () {

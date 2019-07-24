@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var ESC_KEY_CODE = 27;
   var PREVIEW_CONTAINER_SIDE = 600;
   var IMG_TYPES = ['jpg', 'jpeg', 'png', 'gif'];
   var upload = document.querySelector('#upload-file');
@@ -26,7 +25,7 @@
     window.removeEventListener('keydown', onEscPress);
   };
   var onEscPress = function (evt) {
-    if (evt.keyCode === ESC_KEY_CODE) {
+    if (window.utils.isEscKeycode(evt)) {
       if (document.activeElement !== hashtagsInput && document.activeElement !== descriptionInput) {
         evt.preventDefault();
         closeEditingOverlay();
@@ -58,7 +57,7 @@
   var back = document.createElement('div');
   previewContainer.insertAdjacentElement('afterbegin', back);
   previewContainer.style.overflow = 'hidden';
-  back.style = 'position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-size: auto ' + PREVIEW_CONTAINER_SIDE + 'px; background-repeat: repeat-x; filter: blur(9px); z-index: 0;';
+  back.style = 'position: absolute; left: 0; top: 0; width: 100%; height: 100%; background-size: auto ' + PREVIEW_CONTAINER_SIDE + 'px; background-repeat: repeat-x; filter: blur(9px); transform: translateZ(0);';
   back.classList.add('img-upload__generated-background');
   imgEditingOverlay.querySelector('.cancel').addEventListener('click', closeEditingOverlay);
 
